@@ -19,36 +19,28 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Books>> {
 
-    /**
-     * TextView that is displayed when the list is empty
-     */
-    private TextView mEmptyStateTextView;
-
+    //LOG_TAG for debugging purposes
+    public static final String LOG_TAG = MainActivity.class.getName();
     /**
      * Constant value for the book loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int BOOK_LOADER_ID = 1;
-
-    //Adapter for the list of books
-    private BooksAdapter mAdapter;
-
-    //LOG_TAG for debugging purposes
-    public static final String LOG_TAG = MainActivity.class.getName();
-
-    // Search String variable
-    private String userQuery = "";
-
-    // Final URL
-    private String finalQueryUrl = "";
-
     // URL for Google Books API data
     private static final String BASE_BOOKS_REQUEST_URL =
             "https://www.googleapis.com/books/v1/volumes?q=";
-
     // Max Result for  the query
-    private  static  final String MAX_RESULTS_QUERY = "&maxResults=10";
-
+    private static final String MAX_RESULTS_QUERY = "&maxResults=10";
+    /**
+     * TextView that is displayed when the list is empty
+     */
+    private TextView mEmptyStateTextView;
+    //Adapter for the list of books
+    private BooksAdapter mAdapter;
+    // Search String variable
+    private String userQuery = "";
+    // Final URL
+    private String finalQueryUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +50,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Prevent the soft keyboard from pushing the view up
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        // Find a reference to the {@link ListView} in the layout
+        ListView bookListView = (ListView) findViewById(R.id.list);
+
         //Set the EmptyView
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        mEmptyStateTextView.setText(R.string.before_search);
-
+        mEmptyStateTextView.setVisibility(View.VISIBLE);
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(BOOK_LOADER_ID, null, MainActivity.this);
 
-        // Find a reference to the {@link ListView} in the layout
-        ListView bookListView = (ListView) findViewById(R.id.list);
 
 
         // Create a new adapter that takes the list of books as input
@@ -165,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
 
             // Set empty state text to display "No books found."
-            mEmptyStateTextView.setVisibility(View.VISIBLE);
+
             mEmptyStateTextView.setText(R.string.no_books);
 
         }
@@ -176,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<Books>> loader) {
         // Loader reset, so we can clear out our existing data.
-        mEmptyStateTextView.setText(R.string.before_search);
+
         mAdapter.clear();
 
     }

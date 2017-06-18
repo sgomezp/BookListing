@@ -30,9 +30,9 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/search"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_below="@+id/search"
         android:orientation="vertical" />
 
     <!-- Empty view is only visible when the list has no items. -->
@@ -41,8 +41,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:hint="@string/before_search"
+        android:textAppearance="?android:textAppearanceMedium"
         android:visibility="gone"
-        android:textAppearance="?android:textAppearanceMedium" />
+        tools:visibility="visible" />
 
 
 
