@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Book Listing</string>
+
+    <string name="no_internet_connection"> No internet connection</string>
+    <string name="no_books"> No books founds</string>
+    <string name="unknown_author">Unknown author</string>
+
+    <string name="search_hint">Type Title or Author</string>
+    <string name="before_search"> Type in en Search box your query. Could be the Book\'s title or the Book\'s author </string>
+</resources>
