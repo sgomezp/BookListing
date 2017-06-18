@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //Set the EmptyView
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         mEmptyStateTextView.setVisibility(View.VISIBLE);
+        mEmptyStateTextView.setText(R.string.before_search);
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(BOOK_LOADER_ID, null, MainActivity.this);
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Set empty state text to display "No books found."
 
             mEmptyStateTextView.setText(R.string.no_books);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
 
         }
 
