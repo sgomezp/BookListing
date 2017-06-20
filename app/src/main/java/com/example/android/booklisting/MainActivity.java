@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     View loadingIndicator = findViewById(R.id.loading_indicator);
                     loadingIndicator.setVisibility(View.GONE);
 
+                    // clear the list. This way the message will be display it if the
+                    // list has some results for a previous search. Required for reviewer
+                    mAdapter.clear();
+
                     // Update empty state with no connection error message
                     mEmptyStateTextView.setText(R.string.no_internet_connection);
                 }

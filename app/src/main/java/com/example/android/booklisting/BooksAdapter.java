@@ -41,9 +41,9 @@ public class BooksAdapter extends ArrayAdapter<Books> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         // Check if the existing view is being reused, otherwise inflate the view
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate
+        //View listItemView = convertView; I comment this following the reviewer suggestions
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate
                     (R.layout.book_list_item, parent, false);
 
         }
@@ -52,7 +52,7 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         final Books currentBook = getItem(position);
 
         // Find the book_image ImageView in book_list_item layout
-        ImageView imageView = (ImageView) listItemView.findViewById(R.id.book_image);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.book_image);
 
         // Using Picasso lib to show the book thumbnail
         String imageUrl = currentBook.getThumbnail();
@@ -61,15 +61,15 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         imageView.setVisibility(View.VISIBLE);
 
         // Find the book_title
-        TextView titleView = (TextView) listItemView.findViewById(R.id.book_title);
+        TextView titleView = (TextView) convertView.findViewById(R.id.book_title);
 
         // Find the Author Book
-        TextView authorView = (TextView) listItemView.findViewById(R.id.book_author);
+        TextView authorView = (TextView) convertView.findViewById(R.id.book_author);
         titleView.setText(currentBook.getTitle());
         authorView.setText(currentBook.getAuthor());
 
         // Start the intent for the Book details
-        listItemView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -79,6 +79,6 @@ public class BooksAdapter extends ArrayAdapter<Books> {
             }
         });
 
-        return listItemView;
+        return convertView;
     }
 }
