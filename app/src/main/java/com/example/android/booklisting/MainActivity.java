@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //LOG_TAG for debugging purposes
     public static final String LOG_TAG = MainActivity.class.getName();
+    // State of the Boolean var
+    static final String STATE_BOOLEAN = "valueOfIfTheFirstTimeOpen";
     /**
      * Constant value for the book loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
@@ -31,16 +34,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             "https://www.googleapis.com/books/v1/volumes?q=";
     // Max Result for  the query
     private static final String MAX_RESULTS_QUERY = "&maxResults=10";
-    /**
-     * TextView that is displayed when the list is empty
-     */
+    //TextView that is displayed when the list is empty
     private TextView mEmptyStateTextView;
+
     //Adapter for the list of books
     private BooksAdapter mAdapter;
+
     // Search String variable
     private String userQuery = "";
+
     // Final URL
     private String finalQueryUrl = "";
+
+    //Boolean var to check df the first time the app is running
+    private Boolean isTheFirstTimeOpen = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +57,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Prevent the soft keyboard from pushing the view up
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        //check if savedInstanceState contains saved data
+        if (savedInstanceState != null) {
+            //if there is saved data store it in isTheFirstTimeOpen
+            isTheFirstTimeOpen = savedInstanceState.getBoolean(STATE_BOOLEAN);
+        }
+
         // Find a reference to the {@link ListView} in the layout
         ListView bookListView = (ListView) findViewById(R.id.list);
-
-        //Set the EmptyView
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        mEmptyStateTextView.setVisibility(View.VISIBLE);
-        mEmptyStateTextView.setText(R.string.before_search);
+        bookListView.setEmptyView(mEmptyStateTextView);
 
-        LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(BOOK_LOADER_ID, null, MainActivity.this);
+        if (isTheFirstTimeOpen) {
 
+            mEmptyStateTextView.setText(R.string.before_search);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            Log.i(LOG_TAG, "isTheFirstTimeOpen entro en el if: " + isTheFirstTimeOpen);
 
+        } else {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(BOOK_LOADER_ID, null, MainActivity.this);
+        }
 
         // Create a new adapter that takes the list of books as input
         mAdapter = new BooksAdapter(this, new ArrayList<Books>());
@@ -83,19 +99,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 EditText editText = (EditText) findViewById(R.id.search);
-                userQuery = editText.getText().toString().replace(" ","+");
+                userQuery = editText.getText().toString().replace(" ", "+");
                 finalQueryUrl = BASE_BOOKS_REQUEST_URL + userQuery + MAX_RESULTS_QUERY;
 
-
-                // Get a reference to the ConnectivityManager to check state of network connectivity
-                ConnectivityManager cm = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-
-                // Get details on the currently active default data network
-                final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+                isTheFirstTimeOpen = false;
 
                 // If there is a network connection, fetch data
-                if (networkInfo != null && networkInfo.isConnected()) {
+                if (isConnected()) {
                     // Get a reference to the LoaderManager, in order to interact with loaders.
                     LoaderManager loaderManager = getLoaderManager();
 
@@ -109,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                     loaderManager.restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
 
-
-
                 } else {
                     // Otherwise, display error
                     // First, hide loading indicator so error message will be visible
@@ -120,12 +128,30 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     // Update empty state with no connection error message
                     mEmptyStateTextView.setText(R.string.no_internet_connection);
                 }
-
             }
         });
 
+    }
+
+    // Check the network connectivity
+    public boolean isConnected() {
+
+        // Get a reference to the ConnectivityManager to check state of network connectivity
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
 
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(STATE_BOOLEAN, isTheFirstTimeOpen);
+    }
+
 
     @Override
     public Loader<List<Books>> onCreateLoader(int id, Bundle args) {
@@ -133,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Show loading indicator because the data hasn't been loaded
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.VISIBLE);
-
         return new BooksLoader(this, finalQueryUrl);
 
     }
@@ -158,19 +183,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
 
             // Set empty state text to display "No books found."
-
             mEmptyStateTextView.setText(R.string.no_books);
             mEmptyStateTextView.setVisibility(View.VISIBLE);
-
         }
-
 
     }
 
     @Override
     public void onLoaderReset(Loader<List<Books>> loader) {
         // Loader reset, so we can clear out our existing data.
-
         mAdapter.clear();
 
     }

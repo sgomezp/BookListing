@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Book Listing</string>
-
     <string name="no_internet_connection"> No internet connection</string>
     <string name="no_books">No books founds</string>
     <string name="unknown_author">Unknown author</string>
-
     <string name="search_hint">Type Title or Author</string>
     <string name="before_search"> Type your query in the Search box.</string>
+    <string name="tool_text_title">Android: Programacion de dispositivos moviles a través de ejemplos</string>
+    <string name="tool_text_author">José Enrique Amaro Soriano</string>
+    <string name="tool_text_search">Search</string>
 </resources>

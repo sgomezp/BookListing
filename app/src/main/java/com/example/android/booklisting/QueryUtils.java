@@ -39,7 +39,6 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-
     /**
      * Query the Google Books  dataset and return a list of {@link Books} objects.
      */
@@ -76,7 +75,6 @@ public final class QueryUtils {
         } catch (MalformedURLException e) {
 
         }
-
         return url;
     }
 
@@ -152,7 +150,6 @@ public final class QueryUtils {
 
     private static List<Books> extractVolumeInfoFromJson(String bookJSON) {
 
-
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(bookJSON)) {
             return null;
@@ -170,7 +167,7 @@ public final class QueryUtils {
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
 
             // if there are no books  in the query return early
-            if (baseJsonResponse.getInt("totalItems") == 0){
+            if (baseJsonResponse.getInt("totalItems") == 0) {
                 return null;
             }
 

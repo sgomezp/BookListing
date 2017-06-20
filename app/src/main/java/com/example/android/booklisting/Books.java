@@ -6,17 +6,14 @@ package com.example.android.booklisting;
 
 public class Books {
 
-    // Title of the book
-    private String mTitle;
-
-    // Name of the Author
-    private String mAuthor;
-
     /**
      * Constant value that represents no image was provided for this book
      */
     private static final int NO_IMAGE_PROVIDED = -1;
-
+    // Title of the book
+    private String mTitle;
+    // Name of the Author
+    private String mAuthor;
     // Image ID Resource
     private int mImageIdResource = NO_IMAGE_PROVIDED;
 
@@ -29,12 +26,10 @@ public class Books {
     /**
      * Create a new Books Object
      *
-     * @param title           Title of the book
-     * @param author          Name of the author
-     * @param url             Url of the book details
-     *
+     * @param title  Title of the book
+     * @param author Name of the author
+     * @param url    Url of the book details
      */
-
 
     public Books(String title, String author, String thumbnail, String url) {
         // Constructor
@@ -44,7 +39,6 @@ public class Books {
         mUrl = url;
 
     }
-
 
     // Get Title
     public String getTitle() {
@@ -87,12 +81,12 @@ public class Books {
     }
 
     //Get thumbnail
-    public String getThumbnail(){
+    public String getThumbnail() {
         return mThumbnail;
     }
 
     // Set Thumbnail
-    public  void setThumbnail(String thumbnail){
+    public void setThumbnail(String thumbnail) {
         mThumbnail = thumbnail;
     }
 

@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_margin="16dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_10"
     android:orientation="horizontal">
-
 
     <ImageView
         android:id="@+id/book_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/margin_5" />
 
     <LinearLayout
         android:id="@+id/text_container"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/book_image"
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:paddingStart="16dp">
+        android:paddingEnd="@dimen/margin_10"
+        android:paddingStart="@dimen/margin_10">
 
         <TextView
-
             android:id="@+id/book_title"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="top"
+            android:maxLines="5"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="middle"
-            tools:text="Título" />
+            tools:text="@string/tool_text_title" />
 
         <TextView
             android:id="@+id/book_author"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_16"
             android:gravity="top"
+            android:maxLines="3"
+            android:paddingTop="@dimen/margin_5"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@android:color/black"
-            tools:text="José Enrique Amaro Soriano" />
+            tools:text="@string/tool_text_author" />
 
     </LinearLayout>
 

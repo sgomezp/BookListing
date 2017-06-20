@@ -21,16 +21,13 @@ import java.util.ArrayList;
  * Created by sgomezp on 14/06/2017.
  */
 
-
-
-
 public class BooksAdapter extends ArrayAdapter<Books> {
 
     private Context context;
 
     /**
      * @param context The current context. Used to inflate the layout file.
-     * @param  book A list of book objects to display in a list
+     * @param book    A list of book objects to display in a list
      */
     public BooksAdapter(Context context, ArrayList<Books> book) {
 
@@ -45,7 +42,7 @@ public class BooksAdapter extends ArrayAdapter<Books> {
 
         // Check if the existing view is being reused, otherwise inflate the view
         View listItemView = convertView;
-        if (listItemView == null){
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate
                     (R.layout.book_list_item, parent, false);
 
@@ -53,8 +50,6 @@ public class BooksAdapter extends ArrayAdapter<Books> {
 
         // Find the book at the given position in the list of Books
         final Books currentBook = getItem(position);
-
-
 
         // Find the book_image ImageView in book_list_item layout
         ImageView imageView = (ImageView) listItemView.findViewById(R.id.book_image);
@@ -65,14 +60,11 @@ public class BooksAdapter extends ArrayAdapter<Books> {
         Picasso.with(context).load(imageUrl).into(imageView);
         imageView.setVisibility(View.VISIBLE);
 
-
-
         // Find the book_title
         TextView titleView = (TextView) listItemView.findViewById(R.id.book_title);
 
         // Find the Author Book
         TextView authorView = (TextView) listItemView.findViewById(R.id.book_author);
-
         titleView.setText(currentBook.getTitle());
         authorView.setText(currentBook.getAuthor());
 
@@ -81,10 +73,7 @@ public class BooksAdapter extends ArrayAdapter<Books> {
             @Override
             public void onClick(View v) {
 
-                Log.i("BooksAdapter TAG", "Url: " + currentBook.getUrl());
-
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentBook.getUrl()));
-
                 getContext().startActivity(intent);
 
             }
